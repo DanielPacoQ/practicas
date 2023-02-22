@@ -1,0 +1,36 @@
+@import 'bulma';
+@import 'variables';
+
+.content h1{
+  color: palevioletred;
+}
+
+.main-section.columns{
+  padding: unset !important; 
+}
+
+div.card-content {
+  background-color: white;
+}
+.card {
+  margin-bottom: 2em;
+}
+
+.sb-btn{
+  background: palevioletred;
+  color: white;
+}
+
+.card-container {
+  margin-bottom: 2em;
+  padding: 0% 25%;
+}
+
+label.label {
+  font-weight: normal;
+}
+
+.width{
+  width: 100%;
+}
+
