@@ -10,76 +10,92 @@
                   <p>Escribenos y en breve los pondremos en contacto contigo</p>
 
                    <div class="field">
-                    <label class="label" for="nombre">Nombre</label>
+                    <label class="label" for="nombre">Nombre <v-label class="alert" v-if="v$.nombre.$error" text="*"/></label>
                     <input
-                        class="input" 
+                        class="input"
+                        :class="{'alert-input':v$.nombre.$error}" 
                         name="nombre" 
                         pattern="[a-zA-Z][a-zA-Z ]+" 
                         v-model="contacto.nombre"
-                        required
                     />
                   </div>  
 
                   <div class="field">
-                    <label class="label" for="email">Email</label>
+                    <label class="label" for="email">Email <v-label class="alert" v-if="v$.email.$error" text="*"/></label>
                     <input
                       class="input"
+                      :class="{'alert-input':v$.email.$error}" 
                       name="capeCounter"
                       type="email"
                       v-model="contacto.email"
-                      required
                     />
                   </div>
 
                   <div class="field">
-                    <label class="label" for="telefono">Teléfono</label>
+                    <label class="label" for="telefono">Teléfono <v-label class="alert" v-if="v$.telefono.$error" text="*"/></label>
                     <input
                       class="input"
+                      :class="{'alert-input':v$.telefono.$error}" 
                       name="telefono"
                       type="tel"
                       v-model="contacto.telefono"
-                      required
                     />
                   </div>
                   
                   <div class="field">
-                    <label class="label" for="url">Sitio web</label>
+                    <label class="label" for="url">Sitio web <v-label class="alert" v-if="v$.url.$error" text="*"/></label>
                     <input
                         class="input"
+                        :class="{'alert-input':v$.url.$error}" 
                         name="url"
                         type="url" 
                         v-model="contacto.url"
-                        required
                     />
                   </div>
 
                   <div class="field">
-                    <label class="label" for="asunto">Asunto</label>
+                    <label class="label" for="asunto">Asunto <v-label class="alert" v-if="v$.asunto.$error" text="*"/></label>
                     <input
                         class="input"
+                        :class="{'alert-input':v$.asunto.$error}" 
                         name="asunto"
                         v-model="contacto.asunto"
-                        required
                     />
                   </div>
 
                   <div class="field">
-                    <label class="label" for="message">Message</label>
-                    <label>
-                    <v-tooltip v-model="show" activator="parent" location="end">
-                      50?
+                    <label class="label" for="message">Message 
+                      
+                      <v-tooltip
+                      v-model="show"
+                      location="top"
+                    >
+                      <template v-slot:activator="{ props }">
+                        
+                        <v-btn
+                          icon="mdi-help"
+                          v-bind="props">
+                        </v-btn>
+
+                      </template>
+                      <span>50?</span>
                     </v-tooltip>
+                    <v-label class="alert" v-if="v$.mensaje.$error" text="*"/>
                     </label>
-                     <v-textarea  maxlength="50" no-resize @input="showToolTip" v-model="contacto.mensaje"></v-textarea>
+
+                     <textarea class="textarea" maxlength="50" :class="{'alert-input':v$.mensaje.$error}" v-model="contacto.mensaje"/>
                   </div>
 
-                <footer class="card-footer">
-
-                <v-btn class="sb-btn" type="submit" block>
+                <v-btn class="sb-btn" @click="submitForm" block>
                     <span>Enviar</span>
                 </v-btn>
 
-                </footer>
+                <div class="field">
+                  <label class="label" v-if="v$.$error">
+                    <v-label class="alert" text="*"/> Los campos son obligatorios
+                  </label>
+                  
+                </div>
 
                 </form>
               </div>
@@ -91,43 +107,50 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+import { required, email , maxLength } from '@vuelidate/validators'
+import { reactive } from 'vue'
 
-    export default {
-        setup: () => ({ v$: useVuelidate() }),
-        data() {
-            return {
-                show: false,
-                contacto: 
-                {
-                    nombre: '',
-                    email: '',
-                    telefono: '',
-                    sitioWeb: '',
-                    asunto: '',
-                    mensaje: ''
-                }
-            }
-        },
-        validations () {
-          return {
-            contacto: {
-              nombre: { required, email },
-              email: { required, email },
+export default {
+  data(){
+    return{
+      show: false
+    }
+  },
+  setup () {
+    const contacto = 
+          reactive({
+              nombre: '',
+              email: '',
               telefono: '',
-              sitioWeb: '',
+              url: '',
               asunto: '',
               mensaje: ''
-            }
-          }
-        },
-        methods: {
-          showToolTip(){
-            this.show = this.contacto.mensaje.length > 49 
-            console.log(this.show)
-          }
-        }
+          })
+    const rules = {
+        nombre: { required },
+        email: { required, email },
+        telefono: { required },
+        url: { required, },
+        asunto: { required  },
+        mensaje: { required , maxLength: maxLength(50) }
       }
+
+      const v$ = useVuelidate(rules, contacto)
+
+      return { contacto, v$ }
+  },
+  methods: {
+    submitForm() {
+        this.v$.$validate() // checks all inputs
+        if (!this.v$.$error) {
+          // if ANY fail validation
+          alert('Form successfully submitted.')
+        } else {
+          alert('Form failed validation')
+        }
+    }
+  },
+}
 
 </script>
 

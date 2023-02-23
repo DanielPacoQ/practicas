@@ -30,3 +30,21 @@ label.label {
   width: 100%;
 }
 
+.alert{
+  color: red;
+}
+
+.alert-input{
+  border: 1px solid #ff0000;
+}
+
+.v-input__control{
+  border: 1px solid #ff0000;
+}
+
+.textarea{
+  width: 100%;
+  height: 150px;
+  resize: none;
+}
+
