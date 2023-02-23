@@ -1,21 +1,27 @@
 <template>
   <div>
-    <v-icon icon="mdi:mdi-home" />
-    <v-btn icon="mdi:mdi-home" color="blue"> </v-btn>
-    <PopUp v-if="showModal" @close="showModal = false">
-    </PopUp>
+    <router-view v-if="showModal" @close="showModal = false" :to="{ name: 'popup' }">
+    </router-view>
     <div class="main-section"><span class="title">Productos</span></div>
     <div class="main-section">
-      <v-btn>Nuevo</v-btn>
+      <v-btn color="green" append-icon="mdi mdi-plus">Nuevo</v-btn>
     </div>
     <div v-if="!productos.length">
-      <span>No existen productos para desplegar</span>
+      <p>No existen productos para desplegar</p>
     </div>
-    <div class="main-section">
-      <table class="table" v-if="productos.length">
+    <v-data-iterator
+      :items="productos"
+      :rows-per-page-items="rowsPerPageItems"
+      :pagination.sync="pagination"
+      content-tag="v-layout"
+      hide-actions
+      row
+      wrap
+    >
+      <v-table class="table" v-if="productos.length">
         <tr>
           <th>Id</th>
-          <th>Código</th>
+          <th class="d-sm-none d-md-block">Código</th>
           <th>Descripción</th>
           <th>Precio de compra</th>
           <th>Precio de venta</th>
@@ -25,39 +31,27 @@
         </tr>
         <tr v-for= "producto in productos" :key="producto.id">
           <td>{{producto.id}}</td>
-          <td>{{producto.codigo}}</td>
+          <td class="d-sm-none d-md-block">{{producto.codigo}}</td>
           <td>{{producto.descripcion}}</td>
           <td>{{producto.precioCompra}}</td>
           <td>{{producto.precioVenta}}</td>
           <td>{{producto.existencia}}</td>
           <td>
-            <v-btn icon=" mdi mdi-home" color="blue">
-            <router-link
-            tag="button"
-            :to="{ name: 'producto-detail', props: { producto } }"
-            >
-            </router-link>
-            </v-btn>
+            <v-btn icon="mdi mdi-pencil" color="orange-darken-2"/>
           </td>
-          <td><v-btn icon="fas fa-plus" @click="showModal = true"></v-btn></td>
+          <td>
+            <v-btn icon="mdi mdi-delete" color="red" @click="showModal = true"/>
+          </td>
         </tr>
-      </table>
-    </div>
+      </v-table>
+    </v-data-iterator>
   </div>
   
 </template>
 
 <script>
 
-import PopUp from '@/components/popup-modal'
-
-  export default {
-    name: 'ProductosView',
-    components: { PopUp },
-    data() {
-      return {
-        showModal: false,
-        productos: [
+const dbproductos = [
           {
             id: 1,
             codigo: 1,
@@ -98,14 +92,38 @@ import PopUp from '@/components/popup-modal'
             precioVenta: 8.00,
             existencia: 99.00
           }
-        ],
+];
+
+  export default {
+    name: 'ProductosView',
+    loading: true,
+    data() {
+      return {
+        rowsPerPageItems: [4, 8, 12],
+        pagination: {
+          rowsPerPage: 4
+        },
+        showModal: false,
+        productos : [],
       };
     },
+  created() {
+    this.loadProductos();
+  },
   methods: {
+    async getProductos() {
+      return new Promise(resolve => {
+        setTimeout(() => resolve(dbproductos), 1500);
+      });
+    },
+    async loadProductos() {
+      this.productos = [];
+      this.productos = await this.getProductos();
+    },
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/design/ProductoStyles.scss';
 </style>

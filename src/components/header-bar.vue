@@ -5,23 +5,21 @@
         role="navigation"
         aria-label="main navigation"
       >
-        <HeaderBarLogo></HeaderBarLogo>
-        <HeaderBarLinks></HeaderBarLinks>
+        
+      <SideBar></SideBar>
       </nav>
     </header>
   </template>
   
   <script>
-
-  import HeaderBarLogo from '@/components/header-bar-logo';
-  import HeaderBarLinks from '@/components/header-bar-links';
+  import SideBar from '@/components/side-bar-menu';
   
   export default {
     name: 'HeaderBar',
-    components: { HeaderBarLogo, HeaderBarLinks },
+    components: { SideBar },
   };
   </script>
   
   <style lang="scss">
-  @import '@/design/ProductoStyles.scss';
+  @import '@/design/HeaderStyles.scss';
   </style>

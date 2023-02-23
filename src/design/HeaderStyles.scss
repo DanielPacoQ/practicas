@@ -131,8 +131,11 @@ ul.list {
 
 .header-item{
   color: #ffffff;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 4%;
+}
+
+.header-link{
+  color: #000000;
 }
 
 div.card-content {
@@ -149,10 +152,6 @@ div.card-content {
 }
 .card {
   margin-bottom: 2em;
-}
-
-.main-section {
-  padding: 1rem 1rem;
 }
 
 .card-container {

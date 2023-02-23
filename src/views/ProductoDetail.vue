@@ -96,6 +96,6 @@
   };
   </script>
   
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/design/ProductoStyles.scss';
 </style>

@@ -2,12 +2,20 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ProductosView from '../views/ProductosView.vue'
 import ProductoDetail from '../views/ProductoDetail.vue'
 import Contacto from '../views/Contacto.vue'
+import PopUp from '../components/popup-modal.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: ProductosView
+    component: ProductosView,
+    children: [
+      {
+        path: '/',
+        name: 'popup',
+        component: PopUp,
+      }
+    ]
   },
   {
     path: '/producto',
@@ -18,7 +26,6 @@ const routes = [
   {
     path: '/contacto',
     name: 'contacto',
-    props: true,
     component: Contacto
   },
   {

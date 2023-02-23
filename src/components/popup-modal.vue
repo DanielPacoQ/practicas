@@ -6,10 +6,10 @@
         <div class="modal-body">
             ¿Esta seguro que desea eliminar el registro?
         </div>
-
+        
         <div>
             <button class="button" @click="$emit('close')">
-              Ok
+                Ok
             </button>
             <button class="button" @click="$emit('close')">
               Cancelar
@@ -23,14 +23,9 @@
   <script>
   export default {
     name:'PopUp',
-    data(){
-      return{
-        showModal: true
-      };
-    }
   }
   </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '@/design/PopupStyle.scss';
 </style>

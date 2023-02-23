@@ -1,6 +1,6 @@
 <template>
+  <v-card elevation="12">
     <div style="background: palevioletred">
-        <div>
             <div class="card-container">
               <div class="card-content">
                 <form class="content">
@@ -65,19 +65,17 @@
 
                   <div class="field">
                     <label class="label" for="message">Message</label>
-                    <textarea 
-                        maxlength="50"
-                        class="input"
-                        style="resize: none; height: 150px;"
-                        name="message"
-                        v-model="contacto.message"
-                        required
-                    />
+                    <label>
+                    <v-tooltip v-model="show" activator="parent" location="end">
+                      50?
+                    </v-tooltip>
+                    </label>
+                     <v-textarea  maxlength="50" no-resize @input="showToolTip" v-model="contacto.mensaje"></v-textarea>
                   </div>
 
                 <footer class="card-footer">
 
-                <v-btn class="sb-btn" type="submit" block @click="save()">
+                <v-btn class="sb-btn" type="submit" block>
                     <span>Enviar</span>
                 </v-btn>
 
@@ -87,8 +85,8 @@
               </div>
 
             </div>
-          </div>
-    </div>
+  </div>
+</v-card>
 </template>
 
 <script>
@@ -96,9 +94,10 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 
     export default {
-
+        setup: () => ({ v$: useVuelidate() }),
         data() {
             return {
+                show: false,
                 contacto: 
                 {
                     nombre: '',
@@ -121,8 +120,14 @@ import { required, email } from '@vuelidate/validators'
               mensaje: ''
             }
           }
+        },
+        methods: {
+          showToolTip(){
+            this.show = this.contacto.mensaje.length > 49 
+            console.log(this.show)
+          }
         }
-    }
+      }
 
 </script>
 
