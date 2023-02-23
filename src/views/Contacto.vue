@@ -78,7 +78,7 @@
                         </v-btn>
 
                       </template>
-                      <span>50?</span>
+                      <span>50 caracteres?</span>
                     </v-tooltip>
                     <v-label class="alert" v-if="v$.mensaje.$error" text="*"/>
                     </label>
