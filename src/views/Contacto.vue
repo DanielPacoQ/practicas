@@ -107,7 +107,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core'
-import { required, email , maxLength } from '@vuelidate/validators'
+import { required, email , minLength } from '@vuelidate/validators'
 import { reactive } from 'vue'
 
 export default {
@@ -132,7 +132,7 @@ export default {
         telefono: { required },
         url: { required, },
         asunto: { required  },
-        mensaje: { required , maxLength: maxLength(50) }
+        mensaje: { required , minLength: minLength(50) }
       }
 
       const v$ = useVuelidate(rules, contacto)
